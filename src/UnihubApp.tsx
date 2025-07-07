@@ -38,9 +38,9 @@ const UnihubApp: React.FC = () => {
   // Get unique institutions from products
   // Map institution names to logo files
   const institutionLogos: Record<string, string> = {
-    'UFFS - Campus Chapecó': '/logos/uffs.png',
-    'UNOESC - Chapecó': '/logos/unoesc.png',
-    'Unochapecó': '/logos/unochapeco.png',
+    'UFFS - Campus Chapecó': 'logos/uffs.png',
+    'UNOESC - Chapecó': 'logos/unoesc.png',
+    'Unochapecó': 'logos/unochapeco.png',
   };
   const institutions = Array.from(new Set(products.map(p => p.location)));
 
