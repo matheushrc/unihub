@@ -1,0 +1,46 @@
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #3b3993 #2c2b6e;
+}
+
+/* For WebKit-based browsers like Chrome and Safari */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #2c2b6e;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #3b3993;
+    border-radius: 20px;
+    border: 3px solid #2c2b6e;
+}
+
+/* Esconde a barra de rolagem horizontal e vertical em todos os navegadores */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f9fafb;
+}
+
+#root {
+    min-height: 100vh;
+}
