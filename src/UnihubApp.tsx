@@ -335,16 +335,37 @@ const UnihubApp: React.FC = () => {
                 style={{ WebkitOverflowScrolling: 'touch', scrollBehavior: 'smooth', paddingLeft: 32, paddingRight: 32 }}
               >
                 <button
+                  id="institution-all"
                   className={`px-4 py-2 rounded-lg text-sm border flex items-center justify-center min-w-[100px] h-12 snap-center ${!institutionFilter ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-200'}`}
-                  onClick={() => { setInstitutionFilter(''); setCategoryFilter(''); }}
+                  onClick={() => { 
+                    setInstitutionFilter(''); 
+                    setCategoryFilter(''); 
+                    // Use setTimeout to delay scroll until after re-render
+                    setTimeout(() => {
+                      const button = document.getElementById('institution-all');
+                      if (button) {
+                        button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                      }
+                    }, 50);
+                  }}
                 >
                   Todas
                 </button>
                 {institutions.map((inst, idx) => (
                   <button
                     key={idx}
+                    id={`institution-${idx}`}
                     className={`px-2 py-2 rounded-lg text-sm border flex items-center justify-center min-w-[100px] h-12 snap-center ${institutionFilter === inst ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-200'}`}
-                    onClick={() => setInstitutionFilter(inst)}
+                    onClick={() => {
+                      setInstitutionFilter(inst);
+                      // Use setTimeout to delay scroll until after re-render
+                      setTimeout(() => {
+                        const button = document.getElementById(`institution-${idx}`);
+                        if (button) {
+                          button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        }
+                      }, 50);
+                    }}
                   >
                     <img
                       src={institutionLogos[inst]}
@@ -393,8 +414,19 @@ const UnihubApp: React.FC = () => {
                   {categories.map((category, index) => (
                     <button
                       key={index}
+                      id={`category-${index}`}
                       className={`flex-shrink-0 bg-white rounded-lg p-3 text-center min-w-[80px] snap-center border ${categoryFilter === category.name ? 'border-purple-600 ring-2 ring-purple-200' : 'border-gray-200'}`}
-                      onClick={() => setCategoryFilter(category.name === categoryFilter ? '' : category.name)}
+                      onClick={() => {
+                        const newFilter = category.name === categoryFilter ? '' : category.name;
+                        setCategoryFilter(newFilter);
+                        // Use setTimeout to delay scroll until after re-render
+                        setTimeout(() => {
+                          const button = document.getElementById(`category-${index}`);
+                          if (button) {
+                            button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                          }
+                        }, 50);
+                      }}
                     >
                       <div className="text-2xl mb-1">{category.icon}</div>
                       <div className="text-xs font-medium text-gray-700">{category.name}</div>
