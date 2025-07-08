@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, User, Home, ShoppingBag, MessageCircle, Star, MapPin, Filter, ArrowLeft, Heart, Share2, ShoppingCart, Camera, DollarSign, TrendingUp, Users, Package } from 'lucide-react';
 import { products, Product } from './products';
 
@@ -11,6 +11,31 @@ const UnihubApp: React.FC = () => {
   const [institutionFilter, setInstitutionFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [showSell, setShowSell] = useState(false);
+
+  const [targetCategoryId, setTargetCategoryId] = useState<string | null>(null);
+  const [targetInstitutionId, setTargetInstitutionId] = useState<string | null>(null);
+
+  // useEffect for category carousel scrolling
+  useEffect(() => {
+    if (targetCategoryId) {
+      const button = document.getElementById(targetCategoryId);
+      if (button) {
+        button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      setTargetCategoryId(null); // Reset after scrolling
+    }
+  }, [categoryFilter, targetCategoryId]); // Re-run when categoryFilter or targetCategoryId changes
+
+  // useEffect for institution carousel scrolling
+  useEffect(() => {
+    if (targetInstitutionId) {
+      const button = document.getElementById(targetInstitutionId);
+      if (button) {
+        button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      setTargetInstitutionId(null); // Reset
+    }
+  }, [institutionFilter, targetInstitutionId]);
 
   // Sample data agora está em products.ts
 
@@ -337,16 +362,10 @@ const UnihubApp: React.FC = () => {
                 <button
                   id="institution-all"
                   className={`px-4 py-2 rounded-lg text-sm border flex items-center justify-center min-w-[100px] h-12 snap-center ${!institutionFilter ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-200'}`}
-                  onClick={() => { 
-                    setInstitutionFilter(''); 
-                    setCategoryFilter(''); 
-                    // Use setTimeout to delay scroll until after re-render
-                    setTimeout(() => {
-                      const button = document.getElementById('institution-all');
-                      if (button) {
-                        button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                      }
-                    }, 50);
+                  onClick={() => {
+                    setInstitutionFilter('');
+                    setCategoryFilter('');
+                    setTargetInstitutionId('institution-all');
                   }}
                 >
                   Todas
@@ -358,13 +377,7 @@ const UnihubApp: React.FC = () => {
                     className={`px-2 py-2 rounded-lg text-sm border flex items-center justify-center min-w-[100px] h-12 snap-center ${institutionFilter === inst ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-gray-700 border-gray-200'}`}
                     onClick={() => {
                       setInstitutionFilter(inst);
-                      // Use setTimeout to delay scroll until after re-render
-                      setTimeout(() => {
-                        const button = document.getElementById(`institution-${idx}`);
-                        if (button) {
-                          button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                        }
-                      }, 50);
+                      setTargetInstitutionId(`institution-${idx}`);
                     }}
                   >
                     <img
@@ -419,13 +432,7 @@ const UnihubApp: React.FC = () => {
                       onClick={() => {
                         const newFilter = category.name === categoryFilter ? '' : category.name;
                         setCategoryFilter(newFilter);
-                        // Use setTimeout to delay scroll until after re-render
-                        setTimeout(() => {
-                          const button = document.getElementById(`category-${index}`);
-                          if (button) {
-                            button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                          }
-                        }, 50);
+                        setTargetCategoryId(`category-${index}`);
                       }}
                     >
                       <div className="text-2xl mb-1">{category.icon}</div>
